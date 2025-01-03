@@ -658,7 +658,7 @@ fSUSError:
 ; ***********************************************************************************************
 ; ***********************************************************************************************
 
-Command_Fetch:
+COMMAND_Fetch:
 		call 	SetUpSaveVariable 								; get ready to set up.
 		ld 	d,h 											; save HL in DE
 		ld 	e,l
@@ -706,7 +706,7 @@ fCK_Get:
 ; ***********************************************************************************************
 ; ***********************************************************************************************
 
-Command_Print:
+COMMAND_Print:
 		rst 	8								            ; get character
 		cp 	    34 											; if " then it is a string.
 		jp z, 		fCP_String 									
@@ -725,7 +725,7 @@ Command_Print:
 		ret z 
 		cp 	':' 											; which is either end of line or semicolon.
 		ret z
-		jp 	Command_Print 									; no, go and print again.
+		jp 	COMMAND_Print 									; no, go and print again.
 ;
 ;		Found colon or NULL, so exit with newline
 ;
@@ -744,7 +744,7 @@ fCP_String:
 		jp z, 		fCP_CRAndExit 									; end of line, print CR and exit.
 		inc 	l 												; advance pointer 
 		cp 	34											; if closing quote start again
-		jp z, 		Command_Print 
+		jp z, 		COMMAND_Print 
 		ld 	b,a 											; otherwise print and loop
 		rst 	16
 		jp 	fCP_String
